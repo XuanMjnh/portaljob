@@ -18,36 +18,51 @@ public class JobPostActivityService {
         this.jobPostActivityRepository = jobPostActivityRepository;
     }
 
+    // Thêm job mới
     public JobPostActivity addNew(JobPostActivity jobPostActivity) {
         return jobPostActivityRepository.save(jobPostActivity);
     }
 
+    // Lấy 1 job theo id
+    public JobPostActivity getOne(int id) {
+        return jobPostActivityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+    }
+
+    // Lấy tất cả job
+    public List<JobPostActivity> getAll() {
+        return jobPostActivityRepository.findAll();
+    }
+
+    // Tìm kiếm job
+    public List<JobPostActivity> search(String job, String location, List<String> type, List<String> remote, LocalDate searchDate) {
+        return Objects.isNull(searchDate)
+                ? jobPostActivityRepository.searchWithoutDate(job, location, remote, type)
+                : jobPostActivityRepository.search(job, location, remote, type, searchDate);
+    }
+
+    // Lấy job của recruiter dưới dạng DTO
     public List<RecruiterJobsDto> getRecruiterJobs(int recruiter) {
-
         List<IRecruiterJobs> recruiterJobsDtos = jobPostActivityRepository.getRecruiterJobs(recruiter);
-
         List<RecruiterJobsDto> recruiterJobsDtoList = new ArrayList<>();
 
         for (IRecruiterJobs rec : recruiterJobsDtos) {
             JobLocation loc = new JobLocation(rec.getLocationId(), rec.getCity(), rec.getState(), rec.getCountry());
             JobCompany comp = new JobCompany(rec.getCompanyId(), rec.getName(), "");
-            recruiterJobsDtoList.add(new RecruiterJobsDto(rec.getTotalCandidates(), rec.getJob_post_id(),
-                    rec.getJob_title(), loc, comp));
+            recruiterJobsDtoList.add(new RecruiterJobsDto(
+                    rec.getTotalCandidates(),
+                    rec.getJob_post_id(),
+                    rec.getJob_title(),
+                    loc,
+                    comp
+            ));
         }
         return recruiterJobsDtoList;
-
     }
 
-    public JobPostActivity getOne(int id) {
-        return jobPostActivityRepository.findById(id).orElseThrow(()->new RuntimeException("Job not found"));
-    }
-
-    public List<JobPostActivity> getAll() {
-        return jobPostActivityRepository.findAll();
-    }
-
-    public List<JobPostActivity> search(String job, String location, List<String> type, List<String> remote, LocalDate searchDate) {
-        return Objects.isNull(searchDate) ? jobPostActivityRepository.searchWithoutDate(job, location, remote,type) :
-                jobPostActivityRepository.search(job, location, remote, type, searchDate);
+    // Xóa job an toàn, cascade xóa các Apply và Save liên quan
+    public void delete(int id) {
+        JobPostActivity job = getOne(id);
+        jobPostActivityRepository.delete(job);
     }
 }

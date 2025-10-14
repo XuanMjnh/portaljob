@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class JobPostActivity {
@@ -41,6 +42,13 @@ public class JobPostActivity {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date postedDate;
     private String jobTitle;
+
+    // --- Thêm cascade xóa cho các entity liên quan ---
+    @OneToMany(mappedBy = "job", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<JobSeekerApply> jobSeekerApplies;
+
+    @OneToMany(mappedBy = "job", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<JobSeekerSave> jobSeekerSaves;
 
     public JobPostActivity() {
     }
@@ -154,6 +162,22 @@ public class JobPostActivity {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    public List<JobSeekerApply> getJobSeekerApplies() {
+        return jobSeekerApplies;
+    }
+
+    public void setJobSeekerApplies(List<JobSeekerApply> jobSeekerApplies) {
+        this.jobSeekerApplies = jobSeekerApplies;
+    }
+
+    public List<JobSeekerSave> getJobSeekerSaves() {
+        return jobSeekerSaves;
+    }
+
+    public void setJobSeekerSaves(List<JobSeekerSave> jobSeekerSaves) {
+        this.jobSeekerSaves = jobSeekerSaves;
     }
 
     @Override
