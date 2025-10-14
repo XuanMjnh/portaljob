@@ -11,14 +11,15 @@ import com.luv2code.jobportal.services.UsersService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class JobSeekerSaveController {
@@ -28,7 +29,10 @@ public class JobSeekerSaveController {
     private final JobPostActivityService jobPostActivityService;
     private final JobSeekerSaveService jobSeekerSaveService;
 
-    public JobSeekerSaveController(UsersService usersService, JobSeekerProfileService jobSeekerProfileService, JobPostActivityService jobPostActivityService, JobSeekerSaveService jobSeekerSaveService) {
+    public JobSeekerSaveController(UsersService usersService,
+                                   JobSeekerProfileService jobSeekerProfileService,
+                                   JobPostActivityService jobPostActivityService,
+                                   JobSeekerSaveService jobSeekerSaveService) {
         this.usersService = usersService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.jobPostActivityService = jobPostActivityService;
@@ -36,7 +40,7 @@ public class JobSeekerSaveController {
     }
 
     @PostMapping("job-details/save/{id}")
-    public String save(@PathVariable("id") int id, JobSeekerSave jobSeekerSave) {
+    public String save(@PathVariable("id") int id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -44,13 +48,20 @@ public class JobSeekerSaveController {
             Users user = usersService.findByEmail(currentUsername);
             Optional<JobSeekerProfile> seekerProfile = jobSeekerProfileService.getOne(user.getUserId());
             JobPostActivity jobPostActivity = jobPostActivityService.getOne(id);
+
             if (seekerProfile.isPresent() && jobPostActivity != null) {
-                jobSeekerSave.setJob(jobPostActivity);
-                jobSeekerSave.setUserId(seekerProfile.get());
+                JobSeekerProfile profile = seekerProfile.get();
+
+                // ✅ Kiểm tra nếu đã lưu job này rồi thì bỏ qua
+                if (!jobSeekerSaveService.existsByUserAndJob(profile, jobPostActivity)) {
+                    JobSeekerSave newSave = new JobSeekerSave();
+                    newSave.setUserId(profile);
+                    newSave.setJob(jobPostActivity);
+                    jobSeekerSaveService.addNew(newSave);
+                }
             } else {
                 throw new RuntimeException("User not found");
             }
-            jobSeekerSaveService.addNew(jobSeekerSave);
         }
         return "redirect:/dashboard/";
     }

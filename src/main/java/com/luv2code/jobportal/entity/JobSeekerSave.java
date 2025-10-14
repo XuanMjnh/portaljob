@@ -1,32 +1,32 @@
 package com.luv2code.jobportal.entity;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 
 @Entity
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"userId", "job"})
-})
+@Table(
+        name = "job_seeker_save",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"userId", "job"})
+        }
+)
 public class JobSeekerSave implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId", referencedColumnName = "user_account_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "user_account_id", nullable = false)
     private JobSeekerProfile userId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "job", referencedColumnName = "jobPostId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job", referencedColumnName = "jobPostId", nullable = false)
     private JobPostActivity job;
 
-    public JobSeekerSave() {
-    }
+    public JobSeekerSave() {}
 
-    public JobSeekerSave(Integer id, JobSeekerProfile userId, JobPostActivity job) {
-        this.id = id;
+    public JobSeekerSave(JobSeekerProfile userId, JobPostActivity job) {
         this.userId = userId;
         this.job = job;
     }
@@ -59,8 +59,8 @@ public class JobSeekerSave implements Serializable {
     public String toString() {
         return "JobSeekerSave{" +
                 "id=" + id +
-                ", userId=" + userId.toString() +
-                ", job=" + job.toString() +
+                ", userId=" + (userId != null ? userId.getUserAccountId() : "null") +
+                ", job=" + (job != null ? job.getJobPostId() : "null") +
                 '}';
     }
 }

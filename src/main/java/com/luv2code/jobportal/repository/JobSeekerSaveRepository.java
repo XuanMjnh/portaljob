@@ -11,8 +11,10 @@ import java.util.List;
 @Repository
 public interface JobSeekerSaveRepository extends JpaRepository<JobSeekerSave, Integer> {
 
-    public List<JobSeekerSave> findByUserId(JobSeekerProfile userAccountId);
+    List<JobSeekerSave> findByUserId(JobSeekerProfile userAccountId);
 
     List<JobSeekerSave> findByJob(JobPostActivity job);
 
+    // ✅ Thêm dòng này để kiểm tra trùng user-job
+    boolean existsByUserIdAndJob(JobSeekerProfile userId, JobPostActivity job);
 }
