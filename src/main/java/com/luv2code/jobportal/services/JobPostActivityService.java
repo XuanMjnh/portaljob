@@ -28,7 +28,6 @@ public class JobPostActivityService {
         return jobPostActivityRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Job not found"));
     }
-
     // Lấy tất cả job
     public List<JobPostActivity> getAll() {
         return jobPostActivityRepository.findAll();

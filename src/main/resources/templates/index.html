@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <title>Login HotDev Jobs</title>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/font-awesome.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/styles.css}"/>
     <meta charset="ISO-8859-1">
 </head>
 <body class="background">
+<!--<h1>Tổng số công việc hiện có: <span th:text="${totalJobs}">0</span></h1>-->
 <nav class="main_div">
     <div class="logo_left">
         <label class="logo">
-            hotdevjobs
+           NextJobs
         </label>
         <label class="logo_com">
             .com
@@ -21,7 +22,7 @@
     <div class="logo_right">
         <label class="Candidate_login_btn">
             <a th:href="@{/login}">
-                Job Candidate Login
+                Ứng viên Login
             </a>
             <a th:href="@{/register}">
                 /Register
@@ -29,7 +30,7 @@
         </label>
         <label class="Recruiter_login_btn">
             <a th:href="@{/login}">
-                Recruiter Login
+                Nhà tuyển dụng Login
             </a>
             <a th:href="@{/register}">
                 /Register
@@ -38,19 +39,55 @@
         </label>
     </div>
 </nav>
+<h2 class = 'slogan'>NextJobs - Công việc tương lai, kết nối ứng viên và nhà tuyển dụng</h2>
 <form th:action="@{/global-search/}">
     <div class="searchBox">
         <div class="inner">
 
-            <input type="text" placeholder="Search for a job" name="job" th:value="${job}"/>
-            <input type="text" placeholder="Enter a location" name="location" th:value="${location}"/>
-            <button type="submit"><i class="fa fa-search"></i></button>
+            <input type="text" placeholder="Vị trí tuyển dụng, công ty" name="job" th:value="${job}"/>
+            <div class="space"></div>
+            <input type="text" placeholder="Địa điểm" name="location" th:value="${location}"/>
+            <button type="submit">
+                <div>Tìm kiếm</div>
+                <i class="fa fa-search"></i>
+            </button>
 
         </div>
     </div>
 </form>
+<div class="infor">
+    <div class="title-infor">Thị trường việc làm hôm nay <i class="fa-solid fa-chart-simple"></i></div>
+    <div class="container-infor">
+        <div>
+            <span th:text="${totalJobs}">0</span>
+            <h6>Việc làm đang tuyển</h6>
+        </div>
+        <div>
+            <span th:text="${totalRecruiter}">0</span>
+            <h6>Công ty đang tuyển</h6>
+        </div>
+        <div>
+            <span th:text="${totalJobToday}">0</span>
+            <h6>Việc làm mới nhất</h6>
+        </div>
+    </div>
+    <div class="container-infor">
+        <div>
+            <span th:text="${totalJobseeker}">0</span>
+            <h6>Ứng viên</h6>
+        </div>
+        <div>
+            <span th:text="${totalJobseekerApply}">0</span>
+            <h6>Ứng viên đã ứng tuyển</h6>
+        </div>
+        <div>
+            <span th:text="${totalApplied}">0</span>
+            <h6>Số lượt ứng tuyển</h6>
+        </div>
+    </div>
+</div>
 <footer>
-    <label class="copy-right">Copyright © hotdevjobs.com</label>
+    <label class="copy-right">Copyright © NextJobs.com</label>
 </footer>
 </body>
 

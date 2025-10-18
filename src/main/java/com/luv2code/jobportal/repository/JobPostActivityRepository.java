@@ -47,4 +47,6 @@ public interface JobPostActivityRepository extends JpaRepository<JobPostActivity
                                  @Param("remote") List<String> remote,
                                  @Param("type") List<String> type,
                                  @Param("date") LocalDate searchDate);
+    @Query("SELECT COUNT(j) FROM JobPostActivity j WHERE DATE(j.postedDate) = CURRENT_DATE")
+    long countTodayJobPosts();
 }
