@@ -164,15 +164,20 @@ label > a :hover {
   width: 60%;
   background-color: #164081;
   color:#ffffff;
-  border-radius: 30px;
+  border-radius: 10px;
   background: linear-gradient(90deg, rgba(20, 20, 69, 1) 0%, rgba(22, 64, 129, 1) 100%);  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 150, 255, 0.6);
+
 }
+.text-3d {
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
 .title-infor {
   padding: 10px;
   background: rgba(0, 0, 0, 0.15);
   font-size: 26px;
   color: #FFD509;
-  margin-left: 20px;
 }
 .container-infor {
   display: flex;
@@ -193,6 +198,9 @@ label > a :hover {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 0 15px rgba(0, 150, 255, 0.6);
+
+
 }
 .container-infor div span {
   font-size: 28px;
