@@ -16,10 +16,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Controller
 public class JobPostActivityController {
@@ -116,17 +115,24 @@ public class JobPostActivityController {
             } else {
                 List<JobSeekerApply> jobSeekerApplyList = jobSeekerApplyService.getCandidatesJobs((JobSeekerProfile) currentUserProfile);
                 List<JobSeekerSave> jobSeekerSaveList = jobSeekerSaveService.getCandidatesJob((JobSeekerProfile) currentUserProfile);
-
+                Map<Integer, Long> daysAgoMap = new HashMap<>();
                 for (JobPostActivity jobActivity : jobPost) {
+                    // Tính số ngày từ postedDate (Date) → LocalDate
+                    LocalDate posted = jobActivity.getPostedDate().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
+                    long daysAgo = ChronoUnit.DAYS.between(posted, LocalDate.now());
+
                     boolean exist = jobSeekerApplyList.stream()
                             .anyMatch(j -> Objects.equals(j.getJob().getJobPostId(), jobActivity.getJobPostId()));
                     boolean saved = jobSeekerSaveList.stream()
                             .anyMatch(j -> Objects.equals(j.getJob().getJobPostId(), jobActivity.getJobPostId()));
 
+                    daysAgoMap.put(jobActivity.getJobPostId(), daysAgo);
                     jobActivity.setIsActive(exist);
                     jobActivity.setIsSaved(saved);
                 }
-
+                model.addAttribute("daysAgoMap", daysAgoMap);
                 model.addAttribute("jobPost", jobPost);
             }
         }
@@ -233,7 +239,16 @@ public class JobPostActivityController {
                     Arrays.asList(remoteOnly, officeOnly, partialRemote),
                     searchDate);
         }
-
+        Map<Integer, Long> daysAgoMap = new HashMap<>();
+        for (JobPostActivity jobActivity : jobPost) {
+            // Tính số ngày từ postedDate (Date) → LocalDate
+            LocalDate posted = jobActivity.getPostedDate().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            long daysAgo = ChronoUnit.DAYS.between(posted, LocalDate.now());
+            daysAgoMap.put(jobActivity.getJobPostId(), daysAgo);
+        }
+        model.addAttribute("daysAgoMap", daysAgoMap);
         model.addAttribute("jobPost", jobPost);
         return "global-search";
     }

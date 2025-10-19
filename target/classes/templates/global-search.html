@@ -62,26 +62,45 @@
         <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Logout</button>
     </div>
 </header>
+
+
+
+<div class="search-container">
+
+    <div class="inner inner1">
+        <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, công ty" name="job"
+               th:value="${job}"/>
+        <input id="loc" class="" type="text" placeholder="Địa điểm" name="location" th:value="${location}"/>
+        <button type="submit" form="myForm">
+            <i class="fa fa-search"></i>
+            <div>Tìm kiếm</div>
+        </button>
+    </div>
+</div>
+
+
 <section class="section">
-    <div class="sidenav px-5">
+    <div class="sidenav ">
+
         <div>
-            <label class="text-uppercase color-dull font-weight-bold">Filter Results</label>
+
+            <label class="color-dull font-weight-bold"><i class="fa-solid fa-filter"></i> Lọc chi tiết</label>
             <hr/>
-            <form id="myForm" th:action="@{/global-search/}">
+            <form id="myForm" th:action="@{/dashboard/}">
+
                 <div class="row">
                     <div class="col-lg-12">
                         <label>Employment Type</label>
                         <div class="form-check">
-
                             <input
                                     class="form-check-input"
                                     type="checkbox"
                                     th:checked="${partTime}"
-                                    id="part-time"
+                                    id="Part-time"
                                     name="partTime"
                                     th:value="Part-Time"
                             />
-                            <label class="form-check-label" for="part-time">
+                            <label class="form-check-label" for="Part-time">
                                 Part-Time
                             </label>
                         </div>
@@ -113,7 +132,8 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-5">
+                    <div class="col-lg-12">
+
                         <label>Remote</label>
                         <div class="form-check">
                             <input
@@ -154,8 +174,9 @@
                                 Partial-Remote
                             </label>
                         </div>
+
                     </div>
-                    <div class="col-lg-12 mt-5 mb-5">
+                    <div class="col-lg-12">
                         <label>Date Posted</label>
                         <div class="form-check">
                             <input
@@ -197,51 +218,65 @@
                 <input id="hidLoc" name="location" th:value="${location}" hidden>
             </form>
         </div>
+
     </div>
 
     <article>
         <div class="box">
-            <h1 class="primary-title">Dashboard</h1>
-            <div class="inner">
-                <input id="job" class="radius-left" type="text" placeholder="Search for a job" name="job"
-                       th:value="${job}"/>
-                <input id="loc" class="" type="text" placeholder="Job Location" name="location" th:value="${location}"/>
-                <button class="radius-right" type="submit" form="myForm"><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-
-        <div class="box mt-3">
-            <label class="large-label px-3 mb-3">Search Results</label>
+            <label class="large-label"><i class="fa fa-search"></i> Kết quả tìm kiếm</label>
             <th:block th:each="jobPost:${jobPost}">
-                <a th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}"
-                   style=" text-decoration:none; color:black;">
-                    <div onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})" class="job-row">
-                        <div class="row ">
-                            <div class="col-md-4">
-                                <label class="job-title text-left">
-                                    [[${jobPost.jobTitle}]]
-                                    <span class="title-span" sec:authorize="hasAuthority('Recruiter')"
-                                          th:text="'('+ @{${jobPost.totalCandidates}}+' Candidates Applied)'">(xx candidates applied)</span>
-                                    <span class="title-span" sec:authorize="hasAuthority('Job Seeker')"
-                                          th:if="${jobPost.isActive == true}">(Applied)</span>
-                                    <span class="title-span" sec:authorize="hasAuthority('Job Seeker')"
-                                          th:if="${jobPost.isSaved == true}">(Saved)</span>
+                <a
+                        th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}"
+                        style="text-decoration: none; color: black"
+                >
 
+
+                    <div
+                            onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})"
+                            class="job-row"
+                    >
+                        <div class="avatar-company">
+                        </div>
+
+                        <div class="row-container">
+                            <div class="row-job-title">
+                                <label>
+                                    [[${jobPost.jobTitle}]]
                                 </label>
                             </div>
-                            <div class="col-md-4 text-center">
-                                <label th:text="${jobPost.jobLocationId.city+', '+ jobPost.jobLocationId.state}">
-                                    City State</label>
+                            <div class="row-company-name">
+                                <label th:text="@{${jobPost.jobCompanyId.name}}"
+                                >Company Name</label
+                                >
                             </div>
-                            <div class="col-md-4 text-right">
-                                <label th:text="@{${jobPost.jobCompanyId.name}}">Recruiter Company Name</label>
+                            <div class="row-location">
+                                <label
+                                        th:text="${jobPost.jobLocationId.city+', '+ jobPost.jobLocationId.state}"
+                                >
+                                    City</label
+                                >
                             </div>
+
+                        </div>
+
+                        <div class="savejob"
+
+                             th:classappend="${jobPost.isSaved} ? ' saved' : ' not-saved'">
+                            <span th:text="${jobPost.isSaved} ? 'Đã Lưu' : 'Lưu'"></span>
+                        </div>
+                        <div class="applyjob"
+                             th:classappend="${jobPost.isActive} ? ' applied' : ' not-applied'">
+                            <span th:text="${jobPost.isActive} ? 'Đã ứng tuyển' : 'Ứng tuyển'"></span>
+                        </div>
+                        <div class="dayago">
+                            <span th:text="${daysAgoMap != null && daysAgoMap[jobPost.jobPostId] == 0 ? 'Đăng hôm nay' : 'Đăng '+ daysAgoMap[jobPost.jobPostId] + ' ngày trước'}"></span>
                         </div>
                     </div>
+
+
                 </a>
             </th:block>
         </div>
-
     </article>
 
 

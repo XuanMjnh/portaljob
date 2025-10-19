@@ -20,11 +20,10 @@
 <body>
 <header class="navbar navbar-expand-lg navbar-dark">
     <label class="mt-2 ms-5 font-weight-bold h5"
-    ><a th:href="@{/dashboard/}">hotdevjobs</a
+    ><a th:href="@{/dashboard/}">NextJobs</a
     ><span class="logo_com font-weight-bold h5" style="color: white">
           .com</span
-    ></label
-    >
+    ></label>
     <button
             class="navbar-toggler"
             type="button"
@@ -92,12 +91,32 @@
     </div>
 </header>
 
+<!--search part-->
+
+<div class="search-container" sec:authorize="hasAuthority('Job Seeker')">
+    <div class="inner inner1">
+        <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, Công ty" name="job" th:value="${job}"/>
+        <div class="space"></div>
+        <input id="loc" class="" type="text" placeholder="Địa điểm" name="location" th:value="${location}"/>
+        <button type="submit" form="myForm">
+            <i class="fa fa-search"></i>
+            <div>Tìm kiếm</div>
+        </button>
+    </div>
+</div>
+
+<div class="search-container" sec:authorize="hasAuthority('Recruiter')">
+
+</div>
+
+<!--search part-->
+
 <section class="section">
-    <div class="sidenav px-5">
+    <div class="sidenav ">
 
         <div sec:authorize="hasAuthority('Job Seeker')">
 
-            <label class="text-uppercase color-dull font-weight-bold">Filter Results</label>
+            <label class="color-dull font-weight-bold"><i class="fa-solid fa-filter"></i> Lọc chi tiết</label>
             <hr/>
             <form id="myForm" th:action="@{/dashboard/}">
 
@@ -236,69 +255,73 @@
 
 
     <article>
-
-        <div class="box" sec:authorize="hasAuthority('Job Seeker')">
-            <h1 class="primary-title">Candidate Dashboard</h1>
-            <div class="inner">
-                <input id="job" class="radius-left" type="text" placeholder="Search for a job" name="job"
-                       th:value="${job}"/>
-                <input id="loc" class="" type="text" placeholder="Job Location" name="location" th:value="${location}"/>
-                <button class="radius-right" type="submit" form="myForm"><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-
-        <div class="box" sec:authorize="hasAuthority('Recruiter')">
-            <h1 class="primary-title">Recruiter Dashboard</h1>
-        </div>
-        <div class="box mt-3">
-            <label class="large-label px-3 mb-3" sec:authorize="hasAuthority('Job Seeker')">Search Results</label>
+        <label class="large-label" sec:authorize="hasAuthority('Job Seeker')"><i class="fa fa-search"></i> Kết quả tìm kiếm</label>
+        <div class="box">
             <th:block th:each="jobPost:${jobPost}">
                 <a
                         th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}"
                         style="text-decoration: none; color: black"
                 >
+
+
                     <div
                             onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})"
                             class="job-row"
                     >
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="job-title text-left">
+                        <div class="avatar-company">
+
+                        </div>
+
+
+                        <div class="row-container">
+                            <div class="row-job-title">
+                                <label>
                                     [[${jobPost.jobTitle}]]
-                                    <span
-                                            class="title-span"
-                                            sec:authorize="hasAuthority('Recruiter')"
-                                            th:text="'('+ @{${jobPost.totalCandidates}}+' Candidates Applied)'"
-                                    >(xx candidates applied)</span
-                                    >
-                                    <span
-                                            class="title-span"
-                                            sec:authorize="hasAuthority('Job Seeker')"
-                                            th:if="${jobPost.isActive == true}"
-                                    >(Applied)</span
-                                    >
-                                    <span
-                                            class="title-span"
-                                            sec:authorize="hasAuthority('Job Seeker')"
-                                            th:if="${jobPost.isSaved == true}"
-                                    >(Saved)</span
-                                    >
+<!--                                    <span-->
+<!--                                            class="title-span"-->
+<!--                                            sec:authorize="hasAuthority('Recruiter')"-->
+<!--                                            th:text="'('+ @{${jobPost.totalCandidates}}+' Candidates Applied)'"-->
+<!--                                    >(xx candidates applied)</span-->
+<!--                                    >-->
+
+
                                 </label>
                             </div>
-                            <div class="col-md-4 text-center">
+                            <div class="row-company-name">
+<!--                                daysAgoMap[jobPost.jobPostId]-->
+
+                                <label th:text="@{${jobPost.jobCompanyId.name}}"
+                                >Company Name</label
+                                >
+                            </div>
+                            <div class="row-location">
                                 <label
                                         th:text="${jobPost.jobLocationId.city+', '+ jobPost.jobLocationId.state}"
                                 >
-                                    City State</label
+                                    City</label
                                 >
                             </div>
-                            <div class="col-md-4 text-right">
-                                <label th:text="@{${jobPost.jobCompanyId.name}}"
-                                >Recruiter Company Name</label
-                                >
-                            </div>
+
+                        </div>
+
+                        <div class="savejob"
+                             sec:authorize="hasAuthority('Job Seeker')"
+                             th:classappend="${jobPost.isSaved} ? ' saved' : ' not-saved'">
+                            <span th:text="${jobPost.isSaved} ? 'Đã Lưu' : 'Lưu'"></span>
+                        </div>
+                        <div class="applyjob"
+                             sec:authorize="hasAuthority('Job Seeker')"
+                             th:classappend="${jobPost.isActive} ? ' applied' : ' not-applied'">
+                            <span th:text="${jobPost.isActive} ? 'Đã ứng tuyển' : 'Ứng tuyển'"></span>
+                        </div>
+
+                        <div class="dayago"
+                            sec:authorize="hasAuthority('Job Seeker')">
+                            <span th:text="${daysAgoMap != null && daysAgoMap[jobPost.jobPostId] == 0 ? 'Đăng hôm nay' : 'Đăng '+ daysAgoMap[jobPost.jobPostId] + ' ngày trước'}"></span>
                         </div>
                     </div>
+
+
                 </a>
             </th:block>
         </div>
