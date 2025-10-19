@@ -69,6 +69,18 @@ a.primary {
   display: flex;
   justify-content: space-between;
 }
+
+.log-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 500px;
+}
+.log-container h1 {
+  color: #164081;
+}
 .logo_left {
   font-size: 1.4rem;
   color: #164081;
@@ -269,7 +281,7 @@ header.navbar > label {
   margin-left: 3%;
 }
 label.nav-item {
-  color: white;
+  color: #000000;
   box-sizing: border-box;
   display: inline-block;
   margin-bottom: 0;
@@ -408,19 +420,7 @@ label.large-label {
 .hidden-overflow {
   overflow: hidden;
 }
-.coffee_mug_background {
-  height: 100vh;
-  overflow: hidden;
-  background-image: linear-gradient(
-      to right,
-      rgba(0, 34, 68, 0.5),
-      rgba(0, 34, 68, 0.5)
-    ),
-    url('../assets/coffee-mug.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
+
 
 .myForm {
   display: flex;
@@ -470,19 +470,19 @@ label.large-label {
 }
 
 .myBtn {
-  background-color: #fb4f14;
+  background-color: #164081;
   border: none;
   border-radius: 5px;
   color: white;
   width: 100%;
   padding: 2%;
-  font-weight: bolder;
+  font-weight: bold;
   font-size: large;
   height: 100%;
 }
 .myBtn-light {
   box-sizing: border-box;
-  background-color: #fb4f14;
+  background-color: #fb6a35;
   border: none;
   border-radius: 5px;
   color: white;
@@ -492,7 +492,7 @@ label.large-label {
 }
 a.color-text,
 a.color-text:hover {
-  color: #fb4f14;
+  color: #164081  ;
 }
 
 .btn-sec {

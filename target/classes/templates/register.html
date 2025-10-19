@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <meta charset="UTF-8">
     <link
             th:rel="stylesheet"
             th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
@@ -25,10 +26,10 @@
     <title>Sign Up</title>
 </head>
 
-<body>
+<body class = "background">
 <section class="content hidden-overflow">
     <div class="row">
-        <div class="col-6 coffee_mug_background">
+        <div class="col-6 ">
             <div class="logo_left mt-3 pt-4 ms-5 pl-5">
                 <h2 class="logo" style="color: white">
                     hotdevjobs <span class="logo_com">.com</span>
@@ -36,11 +37,11 @@
             </div>
         </div>
         <div class="col-6">
-            <div class="top-margin">
+            <div class="log-container">
                 <div>
                     <div class="d-flex justify-content-center mb-4">
                         <h1 class="heading_font font-weight-bold">
-                            Create User Account
+                            Đăng ký tài khoản
                         </h1>
                     </div>
                     <div class="myForm">
@@ -70,7 +71,7 @@
                                         <div class="form-group">
                                             <input
                                                     min="8"
-                                                    placeholder="Password"
+                                                        placeholder="Mật khẩu"
                                                     name="password"
                                                     th:field="*{password}"
                                                     type="password"
@@ -100,7 +101,7 @@
                             <div class="box-footer">
                                 <div class="row">
                                     <div class="form-group mt-5 col-md-12">
-                                        <button type="submit" class="myBtn py-3">Save</button>
+                                        <button type="submit" class="myBtn py-3">Đăng ký</button>
                                     </div>
                                 </div>
                             </div>
