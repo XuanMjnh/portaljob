@@ -157,12 +157,19 @@ public class JobPostActivityController {
         return "redirect:/dashboard/";
     }
 
-    @PostMapping("/dashboard/edit/{id}")
+    @GetMapping("/dashboard/edit/{id}")
     public String editJob(@PathVariable("id") int id, Model model) {
         JobPostActivity jobPostActivity = jobPostActivityService.getOne(id);
         model.addAttribute("jobPostActivity", jobPostActivity);
         model.addAttribute("user", usersService.getCurrentUserProfile());
         return "add-jobs";
+    }
+
+    // Cập nhật job (từ form submit)
+    @PostMapping("/dashboard/update/{id}")
+    public String updateJob(@PathVariable("id") int id, @ModelAttribute JobPostActivity form) {
+        jobPostActivityService.updateFromForm(id, form);
+        return "redirect:/dashboard/?updated=true";
     }
 
     @PostMapping("/dashboard/deleteJob/{id}")
