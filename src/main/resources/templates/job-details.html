@@ -42,16 +42,16 @@
 
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/dashboard/}"
-                ><i class="fas fa-search"></i>Search for Jobs</a
+                ><i class="fas fa-search"></i>Tím kiếm công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">
-                    <i class="fa-solid fa-eye"></i>View Saved Jobs</a>
+                    <i class="fa-solid fa-eye"></i>Công việc đã lưu</a>
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/job-seeker-profile/}">
-                    <i class="fa-solid fa-pencil"></i>Edit Profile</a>
+                    <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a>
             </li>
 
             <li class="nav-item ">
@@ -79,23 +79,52 @@
         />
         <label th:text="${user.firstName+' '+user.lastName}" class="nav-item nav-link px-2 me-3">John Doe</label>
 
-        <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Logout</button>
+        <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Đăng xuất</button>
     </div>
 </header>
 
-
-<!-- header-end -->
-<section class="section">
-    <!--    Side Bar Starts here    -->
-    <div class="sidenav px-5">
-        <div>
-            <hr/>
+<form id="myForm" th:action="@{/dashboard/}" method="get">
+    <div class="search-container">
+        <div class="inner inner1">
+            <input
+                    id="job"
+                    class="radius-left"
+                    type="text"
+                    placeholder="Vị trí tuyển dụng, công ty"
+                    name="job"
+                    th:value="${job}"
+            />
+            <input
+                    id="loc"
+                    type="text"
+                    placeholder="Địa điểm"
+                    name="location"
+                    th:value="${location}"
+            />
+            <button type="submit">
+                <i class="fa fa-search"></i>
+                <div>Tìm kiếm</div>
+            </button>
         </div>
     </div>
+</form>
+
+<!--<div class="backhome" ><a id="back-link"><i class="fa-solid fa-angle-left me-1"></i>Quay lại </a></div>-->
+<!--<div class="jobdetails-contanier">-->
+<!--    <div class="sideleft">-->
+<!--        <div class="infor-main"></div>-->
+<!--        <div class="infor-detail"></div>-->
+<!--    </div>-->
+<!--    <div class="sideright">-->
+<!--        <div class="infor-company"></div>-->
+<!--        <div class="infor-job"></div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<section class="section">
     <article>
         <div class="box px-3">
-            <a class="mt-3 ms-3 primary" id="back-link"><i class="fa-solid fa-angle-left me-1"></i> Back to Search
-                Results </a>
+
             <h1 class="primary-title mt-3"> Job Details </h1>
             <div class="ms-3">
                 <h4 th:text="${jobDetails.jobTitle}" class="job-title text-left">Software Engineer</h4>
@@ -210,8 +239,8 @@
     var element = document.getElementById('back-link');
     element.setAttribute('href', document.referrer);
     element.onclick = function() {
-      history.back();
-      return false;
+        history.back();
+        return false;
     }
 </script>
 </body>

@@ -29,7 +29,7 @@ public class JobSeekerSaveService {
         jobSeekerSaveRepository.save(jobSeekerSave);
     }
 
-    // ✅ Thêm hàm kiểm tra user đã lưu job này chưa
+    // hàm kiểm tra user đã lưu job này chưa
     public boolean existsByUserAndJob(JobSeekerProfile user, JobPostActivity job) {
         return jobSeekerSaveRepository.existsByUserIdAndJob(user, job);
     }

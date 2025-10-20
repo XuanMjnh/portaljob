@@ -32,7 +32,7 @@
         <div class="col-6 ">
             <div class="logo_left mt-3 pt-4 ms-5 pl-5">
                 <h2 class="logo" style="color: white">
-                    hotdevjobs <span class="logo_com">.com</span>
+                    Nextjobs <span class="logo_com">.com</span>
                 </h2>
             </div>
         </div>
@@ -71,7 +71,7 @@
                                         <div class="form-group">
                                             <input
                                                     min="8"
-                                                        placeholder="Mật khẩu"
+                                                    placeholder="Mật khẩu"
                                                     name="password"
                                                     th:field="*{password}"
                                                     type="password"
@@ -82,18 +82,19 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12 form-group">
+                                    <div class="col-md-12 form-group type-regis">
                                         <select
                                                 required
                                                 class="form-control"
                                                 th:field="*{userTypeId}"
                                         >
-                                            <th:block th:each="userType :${getAllTypes}">
+                                            <th:block th:each="userType : ${getAllTypes}">
                                                 <option
-                                                        th:text="${userType.userTypeName}"
                                                         th:value="${userType.userTypeId}"
-                                                ></option>
+                                                        th:text="${userType.userTypeName == 'Job Seeker' ? 'Ứng viên' : (userType.userTypeName == 'Recruiter' ? 'Nhà tuyển dụng' : userType.userTypeName)}">
+                                                </option>
                                             </th:block>
+
                                         </select>
                                     </div>
                                 </div>
