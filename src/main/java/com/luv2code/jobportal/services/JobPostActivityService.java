@@ -144,17 +144,11 @@ public class JobPostActivityService {
     @Transactional
     public void delete(int id) {
         JobPostActivity job = getOne(id);
-
         Users current = usersService.getCurrentUser();
         if (current == null || job.getPostedById() == null
                 || !Objects.equals(job.getPostedById().getUserId(), current.getUserId())) {
             throw new SecurityException("Bạn không có quyền xóa job này");
         }
-
-        // Nếu entity chưa cấu hình cascade REMOVE/orphanRemoval:
-        jobSeekerApplyRepository.deleteByJob_JobPostId(id);
-        jobSeekerSaveRepository.deleteByJob_JobPostId(id);
-
-        jobPostActivityRepository.delete(job);
+        jobPostActivityRepository.delete(job); // DB tự xóa apply/save
     }
 }

@@ -16,12 +16,12 @@ public class JobSeekerApply implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId", referencedColumnName = "user_account_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private JobSeekerProfile userId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "job", referencedColumnName = "jobPostId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "job", nullable = false)
     private JobPostActivity job;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")

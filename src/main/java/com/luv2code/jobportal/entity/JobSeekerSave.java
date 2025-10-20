@@ -16,13 +16,14 @@ public class JobSeekerSave implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "user_account_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "job", nullable = false)
+    private JobPostActivity job;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private JobSeekerProfile userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job", referencedColumnName = "jobPostId", nullable = false)
-    private JobPostActivity job;
 
     public JobSeekerSave() {}
 

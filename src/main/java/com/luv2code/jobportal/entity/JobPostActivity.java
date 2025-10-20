@@ -44,10 +44,10 @@ public class JobPostActivity {
     private String jobTitle;
 
     // --- Thêm cascade xóa cho các entity liên quan ---
-    @OneToMany(mappedBy = "job", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "job")
     private List<JobSeekerApply> jobSeekerApplies;
 
-    @OneToMany(mappedBy = "job", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "job")
     private List<JobSeekerSave> jobSeekerSaves;
 
     public JobPostActivity() {
