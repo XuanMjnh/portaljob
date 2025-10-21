@@ -16,11 +16,13 @@
 
 <div style="display: flex">
     <div class="col-md-5 coffee_mug_background">
-        <div class="logo_left mt-3 pt-4 ms-5 pl-5">
-            <h2 class="logo" style="color: white">
-                hotdevjobs <span class="logo_com">.com</span>
-            </h2>
-        </div>
+        <label class="mt-0.5 ms-5">
+            <a th:href="@{/dashboard/}"
+               class="btn fw-bold"
+               style="background-color: #164081; color: white; border: none;">
+                NextJobs
+            </a>
+        </label>
     </div>
     <div class="col-md-7 container myForm">
         <form id="job-main-form" th:action="@{/dashboard/addNew}" th:object="${jobPostActivity}" method="post" class="job-add-form">

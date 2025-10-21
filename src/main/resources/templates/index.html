@@ -11,31 +11,23 @@
 <body class="background">
 <!--<h1>Tổng số công việc hiện có: <span th:text="${totalJobs}">0</span></h1>-->
 <nav class="main_div">
-    <div class="logo_left">
-        <label class="logo">
-           NextJobs
-        </label>
-        <label class="logo_com">
-            .com
-        </label>
-    </div>
+    <label class="mt-4 ms-5">
+        <a th:href="@{/dashboard/}"
+           class="btn fw-bold"
+           style="background-color: #164081; color: white; border: none;">
+            NextJobs
+        </a>
+    </label>
     <div class="logo_right">
         <label class="Candidate_login_btn">
             <a th:href="@{/login}">
-                Ứng viên Login
-            </a>
-            <a th:href="@{/register}">
-                /Register
+                Đăng nhập
             </a>
         </label>
         <label class="Recruiter_login_btn">
-            <a th:href="@{/login}">
-                Nhà tuyển dụng Login
-            </a>
             <a th:href="@{/register}">
-                /Register
+                Đăng ký
             </a>
-
         </label>
     </div>
 </nav>

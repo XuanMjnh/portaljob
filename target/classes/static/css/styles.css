@@ -89,7 +89,7 @@ a.primary {
   font-size: 1.4rem;
   color: #164081;
   margin-left: 30px;
-  margin-top: 1.8rem;
+  margin-top: 25px;
 }
 .logo_com {
   margin-left: 5px;
@@ -110,12 +110,13 @@ a.primary {
   border-radius: 0.45rem;
   background-color: #164081;
   margin-right: 0.5rem;
+  border: none;
 }
 .logo_right .Recruiter_login_btn {
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 0.45rem;
   background-color: #fff;
-  border: 2px solid #164081;
+  border: none;
 }
 .logo_right .Recruiter_login_btn a {
   color: #164081;
@@ -497,6 +498,7 @@ label.large-label {
   display: inline;
   font-weight: bold;
 }
+
 a.color-text,
 a.color-text:hover {
   color: #164081  ;
