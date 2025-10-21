@@ -190,7 +190,10 @@
                     </div>
                 </div>
             </div>
-            <div class="infor-detail"></div>
+            <div class="infor-detail">
+                <div class="infor-detail-name"><i class="fa-solid fa-circle-info"></i><p> Chi tiết tuyển dụng</p></div>
+                <div th:utext="${jobDetails.descriptionOfJob}" class = "description"></div>
+            </div>
         </div>
         <div class="sideright">
             <div class="infor-company"></div>
