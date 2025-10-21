@@ -152,9 +152,9 @@ public class JobPostActivityController {
     public String addNew(JobPostActivity jobPostActivity, Model model) {
         Users user = usersService.getCurrentUser();
         if (user != null) jobPostActivity.setPostedById(user);
-        jobPostActivity.setPostedDate(new Date());
+        if(jobPostActivity.getPostedDate() == null) jobPostActivity.setPostedDate(new Date());
         jobPostActivityService.addNew(jobPostActivity);
-        return "redirect:/dashboard/";
+        return "redirect:/job-details-apply/" + jobPostActivity.getJobPostId();
     }
 
     @GetMapping("/dashboard/edit/{id}")

@@ -803,3 +803,18 @@ mr-5 {
   border-radius: 5px;
   padding: 7px;
 }
+
+.edit-btn {
+  height: fit-content;
+  width: 100%;
+  border: 1px solid #e8edf6;
+  border-radius: 5px;
+  padding: 7px;
+}
+.delete-btn {
+  height: fit-content;
+  width: 100%;
+  border: 1px solid #e8edf6;
+  border-radius: 5px;
+  padding: 7px;
+}
