@@ -52,7 +52,7 @@ public class JobSeekerSaveController {
             if (seekerProfile.isPresent() && jobPostActivity != null) {
                 JobSeekerProfile profile = seekerProfile.get();
 
-                // ✅ Kiểm tra nếu đã lưu job này rồi thì bỏ qua
+                //Kiểm tra nếu đã lưu job này rồi thì bỏ qua
                 if (!jobSeekerSaveService.existsByUserAndJob(profile, jobPostActivity)) {
                     JobSeekerSave newSave = new JobSeekerSave();
                     newSave.setUserId(profile);
@@ -63,7 +63,7 @@ public class JobSeekerSaveController {
                 throw new RuntimeException("User not found");
             }
         }
-        return "redirect:/dashboard/";
+        return "redirect:/job-details-apply/" + id;
     }
 
     @GetMapping("saved-jobs/")

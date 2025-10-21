@@ -194,11 +194,13 @@
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <script>
     const element = document.getElementById('back-link');
-    element.setAttribute('href', document.referrer);
-    element.onclick = function () {
-        history.back();
-        return false;
-    }
+    element.setAttribute('href', '/dashboard');
+    element.onclick = function (event) {
+        event.preventDefault();
+        window.location.href = '/dashboard/';
+    };
 </script>
+
+
 </body>
 </html>

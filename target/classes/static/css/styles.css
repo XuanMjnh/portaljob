@@ -593,7 +593,7 @@ mr-5 {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  border: 1px solid #a1a1a1;
+  border: none;
   width: 100px;
   height: 30px;
   border-radius: 20px;
@@ -604,19 +604,17 @@ mr-5 {
 .saved {
   color: #ffffff;
   background-color: #FF9013;
-  border: none;
 }
 .not-saved {
   color: #FF9013;
   background-color: #ffffff;
-  border: none;
 }
 
 .applyjob {
   position: absolute;
   bottom: 10px;
   right: 120px;
-  border: 1px solid #a1a1a1;
+  border: none;
   width: 130px;
   height: 30px;
   border-radius: 20px;
@@ -687,7 +685,9 @@ mr-5 {
   padding-left: 10px;
   padding-top: 10px;
 }
-
+.shadow-effect {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
 .infor-detail {
   width: 100%;
   height: 450px;
