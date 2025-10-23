@@ -39,20 +39,24 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarToggler">
-        <ul class="navbar-nav m-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
 
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/dashboard/}"
-                ><i class="fas fa-search"></i>Tìm kiếm công việc</a
+                ><i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a class="nav-link" th:href="@{/saved-jobs/}">
-                    <i class="fa-solid fa-eye"></i>Công việc đã lưu</a>
+                    <i class="fa-regular fa-bookmark"></i>Công việc đã lưu</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" th:href="@{/applied-jobs/}">
+                    <i class="fa-regular fa-paper-plane"></i>Công việc đã ứng tuyển</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" th:href="@{/job-seeker-profile/}">
-                    <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a>
+                    <i class="fa-regular fa-user"></i>Thông tin cá nhân</a>
             </li>
 
 
@@ -71,6 +75,7 @@
     <div class="inner inner1">
         <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, công ty" name="job"
                th:value="${job}"/>
+        <div class="space"></div>
         <input id="loc" class="" type="text" placeholder="Địa điểm" name="location" th:value="${location}"/>
         <button type="submit" form="myForm">
             <i class="fa fa-search"></i>
@@ -259,14 +264,17 @@
                             </div>
 
                         </div>
-
+                        <div class="salary">
+                            <span th:text="${jobPost.salary}">Lương</span>
+                        </div>
                         <div class="savejob"
-
                              th:classappend="${jobPost.isSaved} ? ' saved' : ' not-saved'">
+                            <i class="fa-regular fa-bookmark" style="margin-right: 5px"></i>
                             <span th:text="${jobPost.isSaved} ? 'Đã Lưu' : 'Lưu'"></span>
                         </div>
                         <div class="applyjob"
                              th:classappend="${jobPost.isActive} ? ' applied' : ' not-applied'">
+                            <i class="fa-regular fa-paper-plane" style="margin-right: 5px"></i>
                             <span th:text="${jobPost.isActive} ? 'Đã ứng tuyển' : 'Ứng tuyển'"></span>
                         </div>
                         <div class="dayago">

@@ -848,3 +848,14 @@ mr-5 {
   width: 100%;
   padding: 10px;
 }
+
+.salary {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  border: none;
+}
+
+.salary span {
+  color: #28a745;
+}

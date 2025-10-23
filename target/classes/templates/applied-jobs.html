@@ -39,24 +39,24 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarToggler">
-        <ul class="navbar-nav m-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/dashboard/}"
-                >Tìm kiếm công việc</a
+                ><i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">
-                    Công việc đã lưu</a>
+                    <i class="fa-regular fa-bookmark"></i>Công việc đã lưu</a>
             </li>
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/applied-jobs/}">
-                    Công việc đã ứng tuyển</a>
+                    <i class="fa-regular fa-paper-plane"></i>Công việc đã ứng tuyển</a>
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/job-seeker-profile/}">
-                    Thông tin cá nhân</a>
+                    <i class="fa-regular fa-user"></i>Thông tin cá nhân</a>
             </li>
         </ul>
         <img
@@ -76,10 +76,9 @@
 </header>
 
 <div class="search-container">
-
     <div class="inner inner1">
-        <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, công ty" name="job"
-               th:value="${job}"/>
+        <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, Công ty" name="job" th:value="${job}"/>
+        <div class="space"></div>
         <input id="loc" class="" type="text" placeholder="Địa điểm" name="location" th:value="${location}"/>
         <button type="submit" form="myForm">
             <i class="fa fa-search"></i>
@@ -87,6 +86,7 @@
         </button>
     </div>
 </div>
+
 
 <section class="section" style="width: calc(60% - 300px); left: calc(20% + 150px)">
     <div class="sidenav " style="display: none">
@@ -270,15 +270,19 @@
                             </div>
 
                         </div>
-
+                        <div class="salary">
+                            <span th:text="${jobPost.salary}">Lương</span>
+                        </div>
                         <div class="savejob"
                              sec:authorize="hasAuthority('Job Seeker')"
                              th:classappend="${jobPost.isSaved} ? ' saved' : ' not-saved'">
+                            <i class="fa-regular fa-bookmark" style="margin-right: 5px"></i>
                             <span th:text="${jobPost.isSaved} ? 'Đã Lưu' : 'Lưu'"></span>
                         </div>
                         <div class="applyjob"
                              sec:authorize="hasAuthority('Job Seeker')"
                              th:classappend="${jobPost.isActive} ? ' applied' : ' not-applied'">
+                            <i class="fa-regular fa-paper-plane" style="margin-right: 5px"></i>
                             <span th:text="${jobPost.isActive} ? 'Đã ứng tuyển' : 'Ứng tuyển'"></span>
                         </div>
 
