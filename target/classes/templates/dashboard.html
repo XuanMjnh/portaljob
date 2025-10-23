@@ -43,16 +43,20 @@
 
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/dashboard/}"
-                ><i class="fas fa-search"></i>Tìm kiếm công việc</a
+                >Tìm kiếm công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">
-                    <i class="fa-solid fa-eye"></i>Công việc đã lưu</a>
+                    </i>Công việc đã lưu</a>
             </li>
+<!--            <li class="nav-item ">-->
+<!--                <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">-->
+<!--                    </i>Công việc đã ứng tuyển</a>-->
+<!--            </li>-->
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/job-seeker-profile/}">
-                    <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a>
+                   </i>Thông tin cá nhân</a>
             </li>
 
             <li class="nav-item ">
