@@ -57,17 +57,17 @@
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/add}"
-                ><i class="fa-solid fa-file-circle-plus"></i>Post New Job</a
+                ><i class="fa-solid fa-file-circle-plus"></i>Tạo công việc mới</a
                 >
             </li>
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/}"
-                > <i class="fa-solid fa-eye"></i>View Your Jobs</a
+                > <i class="fa-solid fa-eye"></i>Danh sách công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/recruiter-profile/}"
-                > <i class="fa-solid fa-pencil"></i>Edit Account</a
+                > <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a
                 >
             </li>
 
@@ -95,7 +95,7 @@
 
 <!--search part-->
 
-<div class="search-container" sec:authorize="hasAuthority('Job Seeker')">
+<div class="search-container">
     <div class="inner inner1">
         <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, Công ty" name="job" th:value="${job}"/>
         <div class="space"></div>
@@ -107,16 +107,16 @@
     </div>
 </div>
 
-<div class="search-container" sec:authorize="hasAuthority('Recruiter')">
-
-</div>
 
 <!--search part-->
 
-<section class="section">
-    <div class="sidenav ">
+<section class="section" th:style="${#authorization.expression('hasAuthority(''Job Seeker'')')}
+              ? 'width: 60%; left: 20%'
+              : 'width: calc(60% - 300px); left: calc(20% + 150px)'">
 
-        <div sec:authorize="hasAuthority('Job Seeker')">
+    <div class="sidenav " sec:authorize="hasAuthority('Job Seeker')">
+
+        <div>
 
             <label class="color-dull font-weight-bold"><i class="fa-solid fa-filter"></i> Lọc chi tiết</label>
             <hr/>
@@ -279,18 +279,9 @@
                             <div class="row-job-title">
                                 <label>
                                     [[${jobPost.jobTitle}]]
-                                    <!--                                    <span-->
-                                    <!--                                            class="title-span"-->
-                                    <!--                                            sec:authorize="hasAuthority('Recruiter')"-->
-                                    <!--                                            th:text="'('+ @{${jobPost.totalCandidates}}+' Candidates Applied)'"-->
-                                    <!--                                    >(xx candidates applied)</span-->
-                                    <!--                                    >-->
-
-
                                 </label>
                             </div>
                             <div class="row-company-name">
-                                <!--                                daysAgoMap[jobPost.jobPostId]-->
 
                                 <label th:text="@{${jobPost.jobCompanyId.name}}"
                                 >Company Name</label

@@ -43,16 +43,16 @@
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/dashboard/}"
-                ><i class="fas fa-search"></i>Search for Jobs</a
+                ><i class="fas fa-search"></i>Tìm kiếm công việc</a
                 >
             </li>
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">
-                    <i class="fa-solid fa-eye"></i>View Saved Jobs</a>
+                    <i class="fa-solid fa-eye"></i>Công việc đã lưu</a>
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/job-seeker-profile/}">
-                    <i class="fa-solid fa-pencil"></i>Edit Profile</a>
+                    <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a>
             </li>
         </ul>
         <img
@@ -70,50 +70,224 @@
         <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Logout</button>
     </div>
 </header>
-<section class="section">
-    <div class="sidenav px-5">
-        <div sec:authorize="hasAuthority('Job Seeker')">
-            <hr/>
 
+<div class="search-container">
+
+    <div class="inner inner1">
+        <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, công ty" name="job"
+               th:value="${job}"/>
+        <input id="loc" class="" type="text" placeholder="Địa điểm" name="location" th:value="${location}"/>
+        <button type="submit" form="myForm">
+            <i class="fa fa-search"></i>
+            <div>Tìm kiếm</div>
+        </button>
+    </div>
+</div>
+
+<section class="section" style="width: calc(60% - 300px); left: calc(20% + 150px)">
+    <div class="sidenav " style="display: none">
+
+        <div>
+
+            <label class="color-dull font-weight-bold"><i class="fa-solid fa-filter"></i> Lọc chi tiết</label>
+            <hr/>
+            <form id="myForm" th:action="@{/dashboard/}">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label>Employment Type</label>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    th:checked="${partTime}"
+                                    id="Part-time"
+                                    name="partTime"
+                                    th:value="Part-Time"
+                            />
+                            <label class="form-check-label" for="Part-time">
+                                Part-Time
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="full-time"
+                                    th:checked="${fullTime}"
+                                    name="fullTime"
+                                    th:value="Full-Time"
+                            />
+                            <label class="form-check-label" for="full-time">
+                                Full-Time
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    id="freelance"
+                                    th:value="Freelance"
+                                    name="freelance"
+                                    th:checked="${freelance}"
+                            />
+                            <label class="form-check-label" for="freelance">
+                                Freelance
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <label>Remote</label>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="remote-only"
+                                    th:value="Remote-Only"
+                                    name="remoteOnly"
+                                    th:checked="${remoteOnly}"
+                            />
+                            <label class="form-check-label" for="remote-only">
+                                Remote-Only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="Office-Only"
+                                    th:value="Office-Only"
+                                    name="officeOnly"
+                                    th:checked="${officeOnly}"
+                            />
+                            <label class="form-check-label" for="Office-Only">
+                                Office-Only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="partial-remote"
+                                    th:value="Partial-Remote"
+                                    name="partialRemote"
+                                    th:checked="${partialRemote}"
+                            />
+                            <label class="form-check-label" for="partial-remote">
+                                Partial-Remote
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-12">
+                        <label>Date Posted</label>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="today"
+                                    name="today"
+                                    th:checked="${today}"
+                            />
+                            <label class="form-check-label" for="today"> Today </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="7days"
+                                    name="days7"
+                                    th:checked="${days7}"
+                            />
+                            <label class="form-check-label" for="7days">
+                                Last 7 Days
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="30days"
+                                    name="days30"
+                                    th:checked="${days30}"
+                            />
+                            <label class="form-check-label" for="30days">
+                                Last 30 Days
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <input id="hidJob" name="job" th:value="${job}" hidden>
+                <input id="hidLoc" name="location" th:value="${location}" hidden>
+            </form>
         </div>
+
     </div>
 
     <article>
-
+        <label class="large-label" sec:authorize="hasAuthority('Job Seeker')"><i class="fa-solid fa-bookmark" style="margin-right: 10px"></i>Công việc đã lưu</label>
         <div class="box">
-            <h1 class="primary-title">Saved Jobs</h1>
-        </div>
-
-        <div class="box mt-3">
-            <label class="large-label px-3 mb-3">Results</label>
             <th:block th:each="jobPost:${jobPost}">
-                <a th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}"
-                   style=" text-decoration:none; color:black;">
-                    <div onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})" class="job-row">
-                        <div class="row ">
-                            <div class="col-md-4">
-                                <label class="job-title text-left">
-                                    [[${jobPost.jobTitle}]]
-                                    <span class="title-span" sec:authorize="hasAuthority('Recruiter')"
-                                          th:text="'('+ @{${jobPost.totalCandidates}}+' Candidates Applied)'">(xx candidates applied)</span>
-                                    <span class="title-span" sec:authorize="hasAuthority('Job Seeker')"
-                                          th:if="${jobPost.isActive == true}">(Applied)</span>
+                <a
+                        th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}"
+                        style="text-decoration: none; color: black"
+                >
 
+
+                    <div
+                            onclick="window.location=/job-details-apply/{id}(id=${jobPost.jobPostId})"
+                            class="job-row"
+                    >
+                        <div class="avatar-company">
+
+                        </div>
+
+
+                        <div class="row-container">
+                            <div class="row-job-title">
+                                <label>
+                                    [[${jobPost.jobTitle}]]
                                 </label>
                             </div>
-                            <div class="col-md-4 text-center">
-                                <label th:text="${jobPost.jobLocationId.city+', '+ jobPost.jobLocationId.state}">
-                                    City State</label>
+                            <div class="row-company-name">
+
+                                <label th:text="@{${jobPost.jobCompanyId.name}}"
+                                >Company Name</label
+                                >
                             </div>
-                            <div class="col-md-4 text-right">
-                                <label th:text="@{${jobPost.jobCompanyId.name}}">Recruiter Company Name</label>
+                            <div class="row-location">
+                                <label
+                                        th:text="${jobPost.jobLocationId.city+', '+ jobPost.jobLocationId.state}"
+                                >
+                                    City</label
+                                >
                             </div>
+
+                        </div>
+
+                        <div class="savejob"
+                             sec:authorize="hasAuthority('Job Seeker')"
+                             th:classappend="${jobPost.isSaved} ? ' saved' : ' not-saved'">
+                            <span th:text="${jobPost.isSaved} ? 'Đã Lưu' : 'Lưu'"></span>
+                        </div>
+                        <div class="applyjob"
+                             sec:authorize="hasAuthority('Job Seeker')"
+                             th:classappend="${jobPost.isActive} ? ' applied' : ' not-applied'">
+                            <span th:text="${jobPost.isActive} ? 'Đã ứng tuyển' : 'Ứng tuyển'"></span>
+                        </div>
+
+                        <div class="dayago"
+                             sec:authorize="hasAuthority('Job Seeker')">
+                            <span th:text="${daysAgoMap != null && daysAgoMap[jobPost.jobPostId] == 0 ? 'Đăng hôm nay' : 'Đăng '+ daysAgoMap[jobPost.jobPostId] + ' ngày trước'}"></span>
                         </div>
                     </div>
+
+
                 </a>
             </th:block>
         </div>
-
     </article>
 
 
