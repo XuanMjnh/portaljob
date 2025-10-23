@@ -1,13 +1,7 @@
 package com.luv2code.jobportal.controller;
 
-import com.luv2code.jobportal.entity.JobPostActivity;
-import com.luv2code.jobportal.entity.JobSeekerProfile;
-import com.luv2code.jobportal.entity.JobSeekerSave;
-import com.luv2code.jobportal.entity.Users;
-import com.luv2code.jobportal.services.JobPostActivityService;
-import com.luv2code.jobportal.services.JobSeekerProfileService;
-import com.luv2code.jobportal.services.JobSeekerSaveService;
-import com.luv2code.jobportal.services.UsersService;
+import com.luv2code.jobportal.entity.*;
+import com.luv2code.jobportal.services.*;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -28,15 +23,18 @@ public class JobSeekerSaveController {
     private final JobSeekerProfileService jobSeekerProfileService;
     private final JobPostActivityService jobPostActivityService;
     private final JobSeekerSaveService jobSeekerSaveService;
+    private final JobSeekerApplyService jobSeekerApplyService;
 
     public JobSeekerSaveController(UsersService usersService,
                                    JobSeekerProfileService jobSeekerProfileService,
                                    JobPostActivityService jobPostActivityService,
-                                   JobSeekerSaveService jobSeekerSaveService) {
+                                   JobSeekerSaveService jobSeekerSaveService,
+                                   JobSeekerApplyService jobSeekerApplyService) {
         this.usersService = usersService;
         this.jobSeekerProfileService = jobSeekerProfileService;
         this.jobPostActivityService = jobPostActivityService;
         this.jobSeekerSaveService = jobSeekerSaveService;
+        this.jobSeekerApplyService = jobSeekerApplyService;
     }
 
     @PostMapping("job-details/save/{id}")
@@ -68,18 +66,27 @@ public class JobSeekerSaveController {
 
     @GetMapping("saved-jobs/")
     public String savedJobs(Model model) {
-
         List<JobPostActivity> jobPost = new ArrayList<>();
         Object currentUserProfile = usersService.getCurrentUserProfile();
 
         List<JobSeekerSave> jobSeekerSaveList = jobSeekerSaveService.getCandidatesJob((JobSeekerProfile) currentUserProfile);
+        List<JobSeekerApply> jobSeekerApplyList = jobSeekerApplyService.getCandidatesJobs((JobSeekerProfile) currentUserProfile);
+
         for (JobSeekerSave jobSeekerSave : jobSeekerSaveList) {
-            jobPost.add(jobSeekerSave.getJob());
+            JobPostActivity job = jobSeekerSave.getJob();
+
+            boolean exist = jobSeekerApplyList.stream()
+                    .anyMatch(j -> Objects.equals(j.getJob().getJobPostId(), job.getJobPostId()));
+
+            job.setIsSaved(true); // vì đang ở trang "saved jobs" mà
+            job.setIsActive(exist); // xem người này đã apply chưa
+
+            jobPost.add(job);
         }
 
         model.addAttribute("jobPost", jobPost);
         model.addAttribute("user", currentUserProfile);
-
         return "saved-jobs";
     }
+
 }

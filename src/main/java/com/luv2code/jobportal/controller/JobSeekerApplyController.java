@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class JobSeekerApplyController {
@@ -101,6 +99,30 @@ public class JobSeekerApplyController {
         }
 
         return "redirect:/job-details-apply/" + id;
+    }
+    @GetMapping("applied-jobs/")
+    public String appliedJobs(Model model) {
+        List<JobPostActivity> jobPost = new ArrayList<>();
+        Object currentUserProfile = usersService.getCurrentUserProfile();
+
+        List<JobSeekerSave> jobSeekerSaveList = jobSeekerSaveService.getCandidatesJob((JobSeekerProfile) currentUserProfile);
+        List<JobSeekerApply> jobSeekerApplyList = jobSeekerApplyService.getCandidatesJobs((JobSeekerProfile) currentUserProfile);
+
+        for (JobSeekerApply jobSeekerApply : jobSeekerApplyList) {
+            JobPostActivity job = jobSeekerApply.getJob();
+
+            boolean exist = jobSeekerSaveList.stream()
+                    .anyMatch(j -> Objects.equals(j.getJob().getJobPostId(), job.getJobPostId()));
+
+            job.setIsSaved(exist);
+            job.setIsActive(true);
+
+            jobPost.add(job);
+        }
+
+        model.addAttribute("jobPost", jobPost);
+        model.addAttribute("user", currentUserProfile);
+        return "applied-jobs";
     }
 }
 

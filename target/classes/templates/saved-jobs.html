@@ -43,16 +43,20 @@
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/dashboard/}"
-                ><i class="fas fa-search"></i>Tìm kiếm công việc</a
+                >Tìm kiếm công việc</a
                 >
             </li>
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">
-                    <i class="fa-solid fa-eye"></i>Công việc đã lưu</a>
+                    Công việc đã lưu</a>
+            </li>
+            <li class="nav-item ">
+                <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/applied-jobs/}">
+                    Công việc đã ứng tuyển</a>
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/job-seeker-profile/}">
-                    <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a>
+                    Thông tin cá nhân</a>
             </li>
         </ul>
         <img
@@ -278,10 +282,10 @@
                             <span th:text="${jobPost.isActive} ? 'Đã ứng tuyển' : 'Ứng tuyển'"></span>
                         </div>
 
-                        <div class="dayago"
-                             sec:authorize="hasAuthority('Job Seeker')">
-                            <span th:text="${daysAgoMap != null && daysAgoMap[jobPost.jobPostId] == 0 ? 'Đăng hôm nay' : 'Đăng '+ daysAgoMap[jobPost.jobPostId] + ' ngày trước'}"></span>
-                        </div>
+<!--                        <div class="dayago"-->
+<!--                             sec:authorize="hasAuthority('Job Seeker')">-->
+<!--                            <span th:text="${daysAgoMap != null && daysAgoMap[jobPost.jobPostId] == 0 ? 'Đăng hôm nay' : 'Đăng '+ daysAgoMap[jobPost.jobPostId] + ' ngày trước'}"></span>-->
+<!--                        </div>-->
                     </div>
 
 

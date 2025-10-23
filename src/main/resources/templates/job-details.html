@@ -43,33 +43,37 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav m-auto mt-2 mt-lg-0">
 
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/dashboard/}"
-                ><i class="fas fa-search"></i>Tím kiếm công việc</a
+                ><Tím kiếm công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">
-                    <i class="fa-solid fa-eye"></i>Công việc đã lưu</a>
+                    Công việc đã lưu</a>
+            </li>
+            <li class="nav-item ">
+                <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/applied-jobs/}">
+                    Công việc đã ứng tuyển</a>
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/job-seeker-profile/}">
-                    <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a>
+                    Thông tin cá nhân</a>
             </li>
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/add}"
-                ><i class="fa-solid fa-file-circle-plus"></i>Post New Job</a
+                >Tạo công việc mới</a
                 >
             </li>
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/}"
-                > <i class="fa-solid fa-eye"></i>View Your Jobs</a
+                > <i class="fa-solid fa-eye"></i>Danh sách công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/recruiter-profile/}"
-                > <i class="fa-solid fa-pencil"></i>Edit Account</a
+                > <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a
                 >
             </li>
 
