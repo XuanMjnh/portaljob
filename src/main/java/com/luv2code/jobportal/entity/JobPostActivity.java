@@ -65,7 +65,7 @@ public class JobPostActivity {
     public JobPostActivity() {
     }
 
-    public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocationId, JobCompany jobCompanyId, Boolean isActive, Boolean isSaved, String descriptionOfJob, String jobType, String salary, String remote, Date postedDate, String jobTitle) {
+    public JobPostActivity(Integer jobPostId, Users postedById, JobLocation jobLocationId, JobCompany jobCompanyId, Boolean isActive, Boolean isSaved, String descriptionOfJob, String jobType, String salary, String remote, Date postedDate, String jobTitle, Integer experienceRequired, String certificateRequired, String field, Integer number) {
         this.jobPostId = jobPostId;
         this.postedById = postedById;
         this.jobLocationId = jobLocationId;
@@ -243,7 +243,7 @@ public class JobPostActivity {
                 ", remote='" + remote + '\'' +
                 ", postedDate=" + postedDate +
                 ", jobTitle='" + jobTitle + '\'' +
-                ", experienceRequired='" + experienceRequired + '\'' +
+                ", experienceRequired='" + experienceRequired +
                 ", certificateRequired='" + certificateRequired + '\'' +
                 ", field='" + field + '\'' +
                 ", number=" + number +
