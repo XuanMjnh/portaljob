@@ -24,6 +24,8 @@ public class JobSeekerProfile {
     private String workAuthorization;
     private String employmentType;
     private String resume;
+    private String experience;
+    private String certificate;
 
     @Column(nullable = true, length = 64)
     private String profilePhoto;
@@ -51,7 +53,22 @@ public class JobSeekerProfile {
         this.resume = resume;
         this.profilePhoto = profilePhoto;
         this.skills = skills;
+        this.experience = experience;
+        this.certificate = certificate;
     }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+    public void setCertificate(String certificate) {}
 
     public Integer getUserAccountId() {
         return userAccountId;
@@ -169,6 +186,8 @@ public class JobSeekerProfile {
                 ", employmentType='" + employmentType + '\'' +
                 ", resume='" + resume + '\'' +
                 ", profilePhoto='" + profilePhoto + '\'' +
+                ", experience='" + experience + '\'' +
+                ", certificate='" + certificate + '\'' +
                 '}';
     }
 }

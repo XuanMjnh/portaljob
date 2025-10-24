@@ -43,6 +43,18 @@ public class JobPostActivity {
     private Date postedDate;
     private String jobTitle;
 
+//    @Column(name = "experience_required")
+    private Integer experienceRequired;          // số năm kinh nghiệm yêu cầu
+
+//    @Column(name = "certificate_required")
+    private String certificateRequired;            // ví dụ: Bachelor, Master, PhD
+
+//    @Column(name = "field")
+    private String field;                  // ví dụ: Software, FinTech...
+
+//    @Column(name = "number")
+    private Integer number;                 // số lượng tuyển
+
     // --- Thêm cascade xóa cho các entity liên quan ---
     @OneToMany(mappedBy = "job")
     private List<JobSeekerApply> jobSeekerApplies;
@@ -66,6 +78,42 @@ public class JobPostActivity {
         this.remote = remote;
         this.postedDate = postedDate;
         this.jobTitle = jobTitle;
+        this.experienceRequired = experienceRequired;
+        this.certificateRequired = certificateRequired;
+        this.field = field;
+        this.number = number;
+    }
+
+    public Integer getExperienceRequired() {
+        return experienceRequired;
+    }
+
+    public void setExperienceRequired(Integer experienceRequired) {
+        this.experienceRequired = experienceRequired;
+    }
+
+    public String getCertificateRequired() {
+        return certificateRequired;
+    }
+
+    public void setCertificateRequired(String certificateRequired) {
+        this.certificateRequired = certificateRequired;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public Integer getJobPostId() {
@@ -195,6 +243,10 @@ public class JobPostActivity {
                 ", remote='" + remote + '\'' +
                 ", postedDate=" + postedDate +
                 ", jobTitle='" + jobTitle + '\'' +
+                ", experienceRequired='" + experienceRequired + '\'' +
+                ", certificateRequired='" + certificateRequired + '\'' +
+                ", field='" + field + '\'' +
+                ", number=" + number +
                 '}';
     }
 }

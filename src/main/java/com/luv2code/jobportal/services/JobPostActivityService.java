@@ -131,6 +131,11 @@ public class JobPostActivityService {
         job.setDescriptionOfJob(form.getDescriptionOfJob());
         job.setJobLocationId(form.getJobLocationId());
         job.setJobCompanyId(form.getJobCompanyId());
+        job.setExperienceRequired(form.getExperienceRequired());
+        job.setCertificateRequired(form.getCertificateRequired());
+        job.setField(form.getField());
+        job.setNumber(form.getNumber());
+
 
         // Nếu dùng optimistic locking (@Version), đảm bảo form có field version hidden trong template.
         jobPostActivityRepository.save(job);
