@@ -246,7 +246,7 @@ public class JobPostActivity {
                 ", experienceRequired='" + experienceRequired + '\'' +
                 ", certificateRequired='" + certificateRequired + '\'' +
                 ", field='" + field + '\'' +
-                ", number=" + number +
+                ", number=" + number + '\'' +
                 '}';
     }
 }
