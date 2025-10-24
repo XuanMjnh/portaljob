@@ -61,17 +61,17 @@
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/add}"
-                >Tạo công việc mới</a
+                ><i class="fa-regular fa-pen-to-square"></i>Tạo công việc mới</a
                 >
             </li>
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/}"
-                > <i class="fa-solid fa-eye"></i>Danh sách công việc</a
+                ><i class="fa-regular fa-folder"></i>Danh sách công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/recruiter-profile/}"
-                > <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a
+                > <i class="fa-regular fa-user"></i>Thông tin cá nhân</a
                 >
             </li>
 

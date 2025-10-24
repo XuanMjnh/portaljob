@@ -45,35 +45,35 @@
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/dashboard/}"
-                >Tím kiếm công việc</a
+                ><i class="fa-solid fa-magnifying-glass"></i>Tìm kiếm công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/saved-jobs/}">
-                    Công việc đã lưu</a>
+                    <i class="fa-regular fa-bookmark"></i>Công việc đã lưu</a>
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/applied-jobs/}">
-                    Công việc đã ứng tuyển</a>
+                    <i class="fa-regular fa-paper-plane"></i>Công việc đã ứng tuyển</a>
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Job Seeker')" class="nav-link" th:href="@{/job-seeker-profile/}">
-                    Thông tin cá nhân</a>
+                    <i class="fa-regular fa-user"></i>Thông tin cá nhân</a>
             </li>
 
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/add}"
-                >Tạo công việc mới</a
+                ><i class="fa-regular fa-pen-to-square"></i>Tạo công việc mới</a
                 >
             </li>
             <li class="nav-item active">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/dashboard/}"
-                > <i class="fa-solid fa-eye"></i>Danh sách công việc</a
+                ><i class="fa-regular fa-folder"></i>Danh sách công việc</a
                 >
             </li>
             <li class="nav-item ">
                 <a sec:authorize="hasAuthority('Recruiter')" class="nav-link" th:href="@{/recruiter-profile/}"
-                > <i class="fa-solid fa-pencil"></i>Thông tin cá nhân</a
+                > <i class="fa-regular fa-user"></i>Thông tin cá nhân</a
                 >
             </li>
 
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div class="infor-main-box">
-                        <div class="infor-main-icon"><i class="fa-solid fa-business-time"></i></div>
+                        <div class="infor-main-icon"><i class="fa-solid fa-clock"></i></div>
                         <div class="infor-main-content">
                             <div class="infor-main-content-title">Hình thức</div>
                             <div th:text="${jobDetails.jobType}">Full-time</div>
@@ -202,8 +202,51 @@
             </div>
         </div>
         <div class="sideright">
-            <div class="infor-company"></div>
-            <div class="request-job"></div>
+            <div class="infor-company">
+                <div class="infor-company-top">
+                    <div class="infor-company-avt"></div>
+                    <div class="infor-company-name" th:text="${jobDetails.jobCompanyId.name}" >Name of Company</div>
+                </div>
+                <div class="infor-company-field">
+                    <p><i class="fa-solid fa-layer-group" style="margin-right: 5px; color: #343333"></i>Lĩnh vực</p>
+                    <span th:text="${jobDetails.field}">Công nghệ thông tin</span>
+                </div>
+                <div class="infor-company-location">
+                    <p><i class="fa-solid fa-location-dot" style="margin-right: 5px"></i>Địa điểm</p>
+                    <span th:text="${jobDetails.jobLocationId.city + ', ' + jobDetails.jobLocationId.state + ', ' + jobDetails.jobLocationId.country}"></span>
+                </div>
+            </div>
+            <div class="request-job">
+                <div class="infor-detail-name"><p>Thông tin chung</p></div>
+                <div class="request-job-row">
+                    <div class="request-job-icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <div class="request-job-infor">
+                        <p>Hình thức làm việc</p>
+                        <span th:text="${jobDetails.remote}">Văn phòng</span>
+                    </div>
+                </div>
+                <div class="request-job-row">
+                    <div class="request-job-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="request-job-infor">
+                        <p>Số lượng tuyển</p>
+                        <span th:text="${jobDetails.number}">10</span>
+                    </div>
+                </div>
+                <div class="request-job-row">
+                    <div class="request-job-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="request-job-infor">
+                        <p>Trình độ học vấn</p>
+                        <span th:text="${jobDetails.certificateRequired}">Đại học</span>
+                    </div>
+                </div>
+                <div class="request-job-row">
+                    <div class="request-job-icon"><i class="fa-solid fa-business-time"></i></div>
+                    <div class="request-job-infor">
+                        <p>Số năm kinh nghiệm</p>
+                        <span th:text="${jobDetails.experienceRequired + ' năm'}">5 năm</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

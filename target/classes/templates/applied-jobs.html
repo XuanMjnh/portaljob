@@ -4,7 +4,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8"/>
     <title>Dashboard</title>
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
@@ -231,7 +230,7 @@
     </div>
 
     <article>
-        <label class="large-label" sec:authorize="hasAuthority('Job Seeker')"><i class="fa-solid fa-bookmark" style="margin-right: 10px"></i>Công việc đã ứng tuyển</label>
+        <label class="large-label" sec:authorize="hasAuthority('Job Seeker')"><i class="fa-regular fa-paper-plane" style="margin-right: 10px"></i>Công việc đã ứng tuyển</label>
         <div class="box">
             <th:block th:each="jobPost:${jobPost}">
                 <a

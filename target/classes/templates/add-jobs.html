@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 
-
+    <meta charset="UTF-8"/>
     <link th:rel="stylesheet" type="text/css" media="all" th:href="@{/summernote/summernote-lite.min.css}"/>
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
     <link rel="stylesheet" type="text/css" media="all"  th:href="@{/css/font-awesome.min.css}" />
@@ -65,6 +65,18 @@
                 </div>
                 <div class="col-md-4 form-group">
                     <input id="salary" th:field="*{salary}" type="text" class="form-control" placeholder="Salary">
+                </div>
+                <div class="col-md-4 form-group">
+                    <input id="number" th:field="*{number}" type="text" class="form-control" placeholder="số lượng tuyển">
+                </div>
+                <div class="col-md-4 form-group">
+                    <input id="field" th:field="*{field}" type="text" class="form-control" placeholder="ngành">
+                </div>
+                <div class="col-md-4 form-group">
+                    <input id="experience_required" th:field="*{experienceRequired}" type="text" class="form-control" placeholder="Số năm kinh nghiệm">
+                </div>
+                <div class="col-md-4 form-group">
+                    <input id="certificate_required" th:field="*{certificateRequired}" type="text" class="form-control" placeholder="Trình độ học vấn">
                 </div>
             </div>
             <div class="row">
