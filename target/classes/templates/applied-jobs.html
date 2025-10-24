@@ -244,7 +244,8 @@
                             class="job-row"
                     >
                         <div class="avatar-company">
-
+                            <img th:src="@{'/photos/company/' + ${jobPost.jobCompanyId.id} + '/' + ${jobPost.jobCompanyId.logo}}"
+                                 alt="Company Logo" style=" width: 100%; height: 100%;">
                         </div>
 
 

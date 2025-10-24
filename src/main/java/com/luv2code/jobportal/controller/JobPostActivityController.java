@@ -5,6 +5,7 @@ import com.luv2code.jobportal.services.JobPostActivityService;
 import com.luv2code.jobportal.services.JobSeekerApplyService;
 import com.luv2code.jobportal.services.JobSeekerSaveService;
 import com.luv2code.jobportal.services.UsersService;
+import com.luv2code.jobportal.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -148,14 +151,35 @@ public class JobPostActivityController {
         return "add-jobs";
     }
 
+
     @PostMapping("/dashboard/addNew")
-    public String addNew(JobPostActivity jobPostActivity, Model model) {
+    public String addNew(
+            @ModelAttribute JobPostActivity jobPostActivity,
+            @RequestParam("companyLogo") MultipartFile logo,
+            Model model) {
+
         Users user = usersService.getCurrentUser();
         if (user != null) jobPostActivity.setPostedById(user);
-        if(jobPostActivity.getPostedDate() == null) jobPostActivity.setPostedDate(new Date());
+        if (jobPostActivity.getPostedDate() == null)
+            jobPostActivity.setPostedDate(new Date());
+
+        // Xử lý file logo
+        if (!logo.isEmpty()) {
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(logo.getOriginalFilename()));
+            jobPostActivity.getJobCompanyId().setLogo(fileName);
+
+            try {
+                String uploadDir = "photos/company/" + jobPostActivity.getJobCompanyId().getId();
+                FileUploadUtil.saveFile(uploadDir, fileName, logo);
+            } catch (IOException e) {
+                throw new RuntimeException("Lỗi lưu file: " + e.getMessage());
+            }
+        }
+
         jobPostActivityService.addNew(jobPostActivity);
         return "redirect:/job-details-apply/" + jobPostActivity.getJobPostId();
     }
+
 
     @GetMapping("/dashboard/edit/{id}")
     public String editJob(@PathVariable("id") int id, Model model) {

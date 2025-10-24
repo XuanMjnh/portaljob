@@ -368,6 +368,7 @@ label.large-label {
   width: 125px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .job-row {
@@ -711,6 +712,7 @@ mr-5 {
   height: 100px;
   border-radius: 10px;
   background-color: #fa6362;
+  overflow: hidden;
 }
 .infor-company-name {
   text-transform: uppercase;

@@ -30,6 +30,7 @@ public class WebSecurityConfig {
             "/register",
             "/register/**",
             "/webjars/**",
+            "/photos/**",
             "/resources/**",
             "/assets/**",
             "/css/**",

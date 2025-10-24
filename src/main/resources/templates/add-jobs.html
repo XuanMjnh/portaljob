@@ -25,12 +25,11 @@
         </label>
     </div>
     <div class="col-md-7 container myForm">
-        <form id="job-main-form" th:action="@{/dashboard/addNew}" th:object="${jobPostActivity}" method="post" class="job-add-form">
+        <form id="job-main-form" th:action="@{/dashboard/addNew}" th:object="${jobPostActivity}" method="post" class="job-add-form"  enctype="multipart/form-data" >
             <input hidden type="text" th:field="*{jobPostId}" >
             <input hidden type="text" th:field="*{jobLocationId.Id}" >
             <input hidden type="text" th:field="*{jobCompanyId.Id}" >
             <input hidden type="text" th:field="*{postedDate}">
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="d-flex justify-content-center pt-3">
@@ -103,6 +102,11 @@
                 <div class="col-lg-12 form-group">
                     <label class="mt-2 heading_font font_sub_heading_color">Company</label>
                     <input id="companyName" th:field="*{jobCompanyId.name}" type="text" class="form-control" placeholder="Company Name">
+                </div>
+                <div class="col-lg-12 form-group">
+                    <label class="mt-2 heading_font font_sub_heading_color">Logo</label>
+                    <input id="companyLogo" name="companyLogo" type="file" class="form-control" accept="image/*">
+
                 </div>
             </div>
 

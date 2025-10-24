@@ -93,22 +93,10 @@
 <form id="myForm" th:action="@{/dashboard/}" method="get">
     <div class="search-container">
         <div class="inner inner1">
-            <input
-                    id="job"
-                    class="radius-left"
-                    type="text"
-                    placeholder="Vị trí tuyển dụng, công ty"
-                    name="job"
-                    th:value="${job}"
-            />
-            <input
-                    id="loc"
-                    type="text"
-                    placeholder="Địa điểm"
-                    name="location"
-                    th:value="${location}"
-            />
-            <button type="submit">
+            <input id="job" class="radius-left" type="text" placeholder="Vị trí tuyển dụng, Công ty" name="job" th:value="${job}"/>
+            <div class="space"></div>
+            <input id="loc" class="" type="text" placeholder="Địa điểm" name="location" th:value="${location}"/>
+            <button type="submit" form="myForm">
                 <i class="fa fa-search"></i>
                 <div>Tìm kiếm</div>
             </button>
@@ -204,7 +192,9 @@
         <div class="sideright">
             <div class="infor-company">
                 <div class="infor-company-top">
-                    <div class="infor-company-avt"></div>
+                    <div class="infor-company-avt"><img th:src="@{'/photos/company/' + ${jobDetails.jobCompanyId.id} + '/' + ${jobDetails.jobCompanyId.logo}}"
+                                                        alt="Company Logo" style=" width: 100%; height: 100%;">
+                    </div>
                     <div class="infor-company-name" th:text="${jobDetails.jobCompanyId.name}" >Name of Company</div>
                 </div>
                 <div class="infor-company-field">
