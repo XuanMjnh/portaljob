@@ -1,11 +1,6 @@
 package com.luv2code.jobportal.services;
 
-import com.luv2code.jobportal.entity.JobCompany;
-import com.luv2code.jobportal.entity.JobLocation;
-import com.luv2code.jobportal.entity.JobPostActivity;
-import com.luv2code.jobportal.entity.RecruiterJobsDto;
-import com.luv2code.jobportal.entity.IRecruiterJobs;
-import com.luv2code.jobportal.entity.Users;
+import com.luv2code.jobportal.entity.*;
 import com.luv2code.jobportal.repository.JobPostActivityRepository;
 import com.luv2code.jobportal.repository.JobSeekerApplyRepository;
 import com.luv2code.jobportal.repository.JobSeekerSaveRepository;
@@ -17,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 @Service
 public class JobPostActivityService {
@@ -25,7 +19,7 @@ public class JobPostActivityService {
     private final JobPostActivityRepository jobPostActivityRepository;
     private final JobSeekerApplyRepository jobSeekerApplyRepository;
     private final JobSeekerSaveRepository jobSeekerSaveRepository;
-    private final UsersService usersService; // để kiểm tra quyền sở hữu
+    private final UsersService usersService; // để kiểm tra quyền sở hữu & lấy profile hiện tại
 
     public JobPostActivityService(JobPostActivityRepository jobPostActivityRepository,
                                   JobSeekerApplyRepository jobSeekerApplyRepository,
@@ -68,12 +62,8 @@ public class JobPostActivityService {
         String kw = StringUtils.hasText(job) ? job.trim() : null;
         String loc = StringUtils.hasText(location) ? location.trim() : null;
 
-        List<String> types = (type == null)
-                ? List.of()
-                : filtered(type);
-        List<String> remotes = (remote == null)
-                ? List.of()
-                : filtered(remote);
+        List<String> types = (type == null) ? List.of() : filtered(type);
+        List<String> remotes = (remote == null) ? List.of() : filtered(remote);
 
         // Gọi repo đúng chữ ký
         return (searchDate == null)
@@ -136,7 +126,6 @@ public class JobPostActivityService {
         job.setField(form.getField());
         job.setNumber(form.getNumber());
 
-
         // Nếu dùng optimistic locking (@Version), đảm bảo form có field version hidden trong template.
         jobPostActivityRepository.save(job);
     }
@@ -144,7 +133,7 @@ public class JobPostActivityService {
     /**
      * Xóa job an toàn:
      * - Kiểm tra quyền sở hữu
-     * - Xóa record con trước (Apply/Save) nếu chưa cấu hình cascade/orphanRemoval.
+     * - Xóa record con trước (Apply/Save) nếu chưa cấu hình cascade/orphanRemoval tại DB/Entity.
      */
     @Transactional
     public void delete(int id) {
@@ -154,6 +143,55 @@ public class JobPostActivityService {
                 || !Objects.equals(job.getPostedById().getUserId(), current.getUserId())) {
             throw new SecurityException("Bạn không có quyền xóa job này");
         }
-        jobPostActivityRepository.delete(job); // DB tự xóa apply/save
+        jobPostActivityRepository.delete(job); // DB đã bật FK ON DELETE CASCADE thì sẽ tự xóa apply/save
+    }
+
+    /**
+     * Tìm kiếm chỉ theo thanh search (job + location) và gắn lại cờ isActive/isSaved
+     * cho người dùng hiện tại (nếu là Job Seeker) để UI hiển thị “Đã ứng tuyển/Đã lưu”.
+     */
+    public List<JobPostActivity> searchOnly(String job, String location) {
+        String j = (job == null || job.isBlank()) ? null : job.trim();
+        String l = (location == null || location.isBlank()) ? null : location.trim();
+
+        List<JobPostActivity> result = (j == null && l == null)
+                ? jobPostActivityRepository.findAllByOrderByPostedDateDesc()
+                : jobPostActivityRepository.searchByKeyword(j, l);
+
+        // -> gắn lại cờ applied/saved theo user hiện tại
+        return decorateWithUserFlags(result);
+    }
+
+    /* ===================== gắn cờ applied/saved ===================== */
+
+    /**
+     * Với danh sách job, set lại hai cờ tạm thời:
+     *   - job.setIsActive(true) nếu user hiện tại đã apply job đó
+     *   - job.setIsSaved(true)  nếu user hiện tại đã lưu job đó
+     * Nếu user không phải Job Seeker (VD: Recruiter) thì bỏ qua.
+     */
+    private List<JobPostActivity> decorateWithUserFlags(List<JobPostActivity> jobs) {
+        if (jobs == null || jobs.isEmpty()) return jobs;
+
+        Object profile = usersService.getCurrentUserProfile();
+        if (profile instanceof JobSeekerProfile jobSeeker) {
+            // lấy danh sách apply & save của ứng viên hiện tại
+            List<JobSeekerApply> applied = jobSeekerApplyRepository.findByUserId(jobSeeker);
+            List<JobSeekerSave> saved = jobSeekerSaveRepository.findByUserId(jobSeeker);
+
+            for (JobPostActivity job : jobs) {
+                boolean isApplied = applied.stream()
+                        .anyMatch(a -> a.getJob() != null
+                                && a.getJob().getJobPostId() == job.getJobPostId());
+                boolean isSaved = saved.stream()
+                        .anyMatch(s -> s.getJob() != null
+                                && s.getJob().getJobPostId() == job.getJobPostId());
+
+                job.setIsActive(isApplied);
+                job.setIsSaved(isSaved);
+            }
+        }
+        // Recruiter hoặc chưa đăng nhập: không gắn cờ
+        return jobs;
     }
 }

@@ -140,6 +140,11 @@ public class JobPostActivityController {
             }
         }
 
+        jobPost = jobPostActivityService.searchOnly(job, location);
+
+        model.addAttribute("jobPost", jobPost);
+        model.addAttribute("job", job);
+        model.addAttribute("location", location);
         model.addAttribute("user", currentUserProfile);
         return "dashboard";
     }

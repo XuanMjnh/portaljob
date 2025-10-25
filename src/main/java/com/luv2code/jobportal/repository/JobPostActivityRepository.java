@@ -49,4 +49,22 @@ public interface JobPostActivityRepository extends JpaRepository<JobPostActivity
                                  @Param("date") LocalDate searchDate);
     @Query("SELECT COUNT(j) FROM JobPostActivity j WHERE DATE(j.postedDate) = CURRENT_DATE")
     long countTodayJobPosts();
+
+    // 1) Tìm kiếm chỉ theo từ khóa & địa điểm. Nếu tham số = null thì tự bỏ qua điều kiện.
+    @Query("""
+           SELECT j FROM JobPostActivity j
+           WHERE (:job IS NULL OR
+                  LOWER(j.jobTitle) LIKE LOWER(CONCAT('%', :job, '%')) OR
+                  LOWER(j.jobCompanyId.name) LIKE LOWER(CONCAT('%', :job, '%')))
+             AND (:location IS NULL OR
+                  LOWER(j.jobLocationId.city)    LIKE LOWER(CONCAT('%', :location, '%')) OR
+                  LOWER(j.jobLocationId.state)   LIKE LOWER(CONCAT('%', :location, '%')) OR
+                  LOWER(j.jobLocationId.country) LIKE LOWER(CONCAT('%', :location, '%')))
+           ORDER BY j.postedDate DESC
+           """)
+    List<JobPostActivity> searchByKeyword(@Param("job") String job,
+                                          @Param("location") String location);
+
+    // 2) Dùng khi cả job & location đều để trống: trả về tất cả, mới đăng trước
+    List<JobPostActivity> findAllByOrderByPostedDateDesc();
 }
